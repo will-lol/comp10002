@@ -41,7 +41,7 @@
                   src = ./projects/${s};
                   nativeBuildInputs = [ pkgs.gcc ];
                   buildPhase = ''
-                    gcc -Wall -o ${s} main.c
+                    gcc -Wall -Wextra -Werror -Wno-newline-eof -Wno-unused-parameter -pedantic -std=c17 -o ${s} main.c
                   '';
                   installPhase = ''
                     mkdir -p $out/bin
