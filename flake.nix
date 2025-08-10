@@ -72,15 +72,20 @@
             ];
             text = ''
               if [ -z "$1" ]; then
-              	printf "Error: No directory name provided.\n" >&2
-              	printf "Usage: %s <directory_name>\n" "$0" >&2
+              printf "Error: No directory name provided.\n" >&2
+              printf "Usage: %s <directory_name>\n" "$0" >&2
               exit 1
               fi
 
-              DIRECTORY="$(git rev-parse --show-toplevel)/$1"
+              ROOT_DIRECTORY="$(git rev-parse --show-toplevel)"
+              DIRECTORY="$ROOT_DIRECTORY/$1"
+
               mkdir "$DIRECTORY"
               cp --no-preserve=mode ${./boilerplate.c} "$DIRECTORY/main.c"
               generate-manifest
+
+              git add "$DIRECTORY/main.c"
+              git add "$ROOT_DIRECTORY/manifest.json"
             '';
           };
         }
