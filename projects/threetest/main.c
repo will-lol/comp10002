@@ -4,10 +4,12 @@
 
 int main(int argc, char *argv[]) {
   int x = 3, y = 4, z = 6;
-  if (x < y < z)
+  if (x < y && y < z) {
     z = z + 1;
-  if (z > y > x)
+  }
+  if (z > y && y > x) {
     z = z + 2;
+  }
   printf("After the two if statements z=%d\n", z);
   return 0;
 }
