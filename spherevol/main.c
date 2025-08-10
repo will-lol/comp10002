@@ -5,12 +5,15 @@
 int main(int argc, char *argv[]) {
   double radius, volume;
 
-  printf("Enter sphere radius: ");
-  scanf("%lf", &radius);
-  volume = (4 / 3) * (PI * radius * radius * radius);
+  fprintf(stderr, "Enter sphere radius: ");
 
-  printf("When radius is %.2f meters, ", radius);
-  printf("volume is %.2f cubic meters\n", volume);
+  if (fscanf(stdin, "%lf", &radius) != 1) {
+    fprintf(stderr, "Wrong input!\n");
+    return -1;
+  }
+  volume = (4.0 * PI * radius * radius * radius) / 3.0;
+
+  fprintf(stdout, "%.2f\n", volume);
 
   return 0;
 }
