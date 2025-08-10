@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define TRUE 1
+#define FALSE 0
+
 int main(int argc, char *argv[]) {
   int n, divisor, isprime;
   printf("Enter a number n: ");
@@ -11,19 +14,19 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
   /* a value for n has been read */
-  isprime = 1;
+  isprime = TRUE;
   for (divisor = 2; divisor * divisor <= n; divisor++) {
-    if (n % divisor == 0) {
-      isprime = 0;
+    if (n % divisor == FALSE) {
+      isprime = FALSE;
       break;
     }
   }
-  if (isprime == 1) {
+  if (isprime) {
     printf("%d is a prime number\n", n);
   } else {
     printf("%d = %d * %d\n", n, divisor, n / divisor);
   }
-  return 0;
+  return FALSE;
 }
 
 /* =====================================================================
