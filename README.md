@@ -2,6 +2,14 @@
 
 Small C programs for the subject COMP10002. Each exercise lives in its own directory with a single `main.c`. A Nix flake is included to build and scaffold exercises consistently across systems.
 
+Many of these C programs are either identical or minimally modified to those from Alistair Moffat as part of his book. The original programs are published [here](https://people.eng.unimelb.edu.au/ammoffat/ppsaa/c/). I am required to reproduce the warranty and permission statements:
+
+```
+Warranty: These programs are supplied for educational purposes only. There is no absolutely no warranty of any kind that they are fit for any purpose whatsoever, and no permission or consent is granted for you to use them in any way that might put you at risk of financial or personal loss, real or implied. (Sorry to be so negative, that one is for any lawyers that happen to be looking.)
+
+Permission: You may copy these programs onto any computer that you are using as part of your education. You may also reproduce them into any work of your own, including making them available on your personal or institutional web site, provided always that you continue to acknowledge my authorship of them by retaining unchanged the comment that appears at the end of each file, and provided that you reproduce both the "Warranty" and "Permission" statements that appear in this file in any electronic listing of them.
+```
+
 ### Project layout
 
 - `boilerplate.c` — template used when creating a new exercise

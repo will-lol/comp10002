@@ -38,7 +38,7 @@
                 name = s;
                 value = pkgs.stdenv.mkDerivation {
                   name = s;
-                  src = ./${s};
+                  src = ./projects/${s};
                   nativeBuildInputs = [ pkgs.gcc ];
                   buildPhase = ''
                     gcc -Wall -o ${s} main.c
@@ -60,7 +60,7 @@
             text = ''
               ROOT_DIRECTORY="$(git rev-parse --show-toplevel)"
 
-              find "$ROOT_DIRECTORY" -mindepth 1 -maxdepth 1 -type d -printf '%P\n' | git check-ignore --stdin --verbose --non-matching | awk '$1 == "::" {print $2}' | jq -R -s 'split("\n")[:-1]' > "$ROOT_DIRECTORY/manifest.json"
+              find "$ROOT_DIRECTORY/projects" -mindepth 1 -maxdepth 1 -type d -printf '%P\n' | git check-ignore --stdin --verbose --non-matching | awk '$1 == "::" {print $2}' | jq -R -s 'split("\n")[:-1]' > "$ROOT_DIRECTORY/manifest.json"
             '';
           };
 
@@ -77,7 +77,7 @@
               exit 1
               fi
 
-              ROOT_DIRECTORY="$(git rev-parse --show-toplevel)"
+              ROOT_DIRECTORY="$(git rev-parse --show-toplevel)/projects"
               DIRECTORY="$ROOT_DIRECTORY/$1"
 
               mkdir "$DIRECTORY"
