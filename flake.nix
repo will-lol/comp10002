@@ -79,7 +79,7 @@
 
               DIRECTORY="$(git rev-parse --show-toplevel)/$1"
               mkdir "$DIRECTORY"
-              cp ${./boilerplate.c} "$DIRECTORY/main.c"
+              cp --no-preserve=mode ${./boilerplate.c} "$DIRECTORY/main.c"
               generate-manifest
             '';
           };
