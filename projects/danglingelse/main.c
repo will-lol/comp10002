@@ -4,11 +4,15 @@
 
 int main(int argc, char *argv[]) {
   int x = 3, y = 4, z = 6;
-  if (x > 2)
-    if (y > 6)
+
+  if (x > 2) {
+    if (y > 6) {
       z = 7;
-    else
-      z = 8;
+    }
+  } else {
+    z = 8;
+  }
+
   printf("After the if statement z=%d\n", z);
   return 0;
 }
