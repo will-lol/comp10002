@@ -64,6 +64,7 @@
   "malloc",
   "treeops",
   "funcarg",
+  "wordcounter",
   "random",
   "savingsfunc",
   "funcpoint",
