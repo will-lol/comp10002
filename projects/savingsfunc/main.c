@@ -20,11 +20,11 @@ int main(int argc, char *argv[]) {
   double rate, per_month, answer;
 
   /* read in values to be processed */
-  printf("Enter number of years   : ");
+  printf("Enter number of years\t: ");
   scanf("%d", &years);
-  printf("Enter annual rate (%%)   : ");
+  printf("Enter annual rate (%%)\t: ");
   scanf("%lf", &rate);
-  printf("Enter monthly amount    : $");
+  printf("Enter monthly amount\t: $");
   scanf("%lf", &per_month);
 
   /* and print out the desired answers */
