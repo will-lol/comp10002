@@ -8,7 +8,9 @@ int nextprime(int n);
 int main(int argc, char *argv[]) {
   int n;
   printf("Enter a number n: ");
-  scanf("%d", &n);
+  if (scanf("%d", &n) != 1) {
+    fprintf(stderr, "Incorrect input");
+  }
   if (isprime(n)) {
     printf("%d is a prime number\n", n);
   } else {
