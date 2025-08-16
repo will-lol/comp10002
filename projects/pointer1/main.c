@@ -5,7 +5,8 @@
 int main(int argc, char *argv[]) {
   static int w;
   int x, y, z;
-  printf("&w = %16p\n&x = %16p\n&y = %16p\n&z = %16p\n", &w, &x, &y, &z);
+  printf("&w = %16p\n&x = %16p\n&y = %16p\n&z = %16p\n", (void *)&w, (void *)&x,
+         (void *)&y, (void *)&z);
   return 0;
 }
 
