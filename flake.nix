@@ -3,7 +3,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     systems.url = "systems";
   };
-
   outputs =
     {
       self,
@@ -18,7 +17,6 @@
         default = final: prev: {
         };
       };
-
       packages = forEachSystem (
         system:
         let
@@ -29,27 +27,55 @@
         in
         {
           default = { };
-          projects =
-            let
-              projectsManifest = builtins.fromJSON (builtins.readFile ./manifest.json);
-            in
-            (builtins.listToAttrs (
-              map (s: {
-                name = s;
-                value = pkgs.stdenv.mkDerivation {
+
+          projects = {
+            debug =
+              let
+                projectsManifest = builtins.fromJSON (builtins.readFile ./manifest.json);
+              in
+              (builtins.listToAttrs (
+                map (s: {
                   name = s;
-                  src = ./projects/${s};
-                  nativeBuildInputs = [ pkgs.gcc ];
-                  buildPhase = ''
-                    gcc -Wall -Wextra -Werror -Wno-unused-parameter -pedantic -std=c17 -o ${s} main.c
-                  '';
-                  installPhase = ''
-                    mkdir -p $out/bin
-                    mv ${s} $out/bin/
-                  '';
-                };
-              }) projectsManifest
-            ));
+                  value = pkgs.stdenv.mkDerivation {
+                    name = "${s}-debug";
+                    src = ./projects/${s};
+                    nativeBuildInputs = [ pkgs.gcc ];
+                    buildPhase = ''
+                      gcc -Wall -Wextra -Werror -Wno-unused-parameter -pedantic -std=c17 -ggdb -o ${s} main.c
+                    '';
+                    installPhase = ''
+                      mkdir -p $out/bin
+                      mv ${s} $out/bin/
+                    '';
+                    meta = {
+                      mainProgram = s;
+                    };
+                  };
+                }) projectsManifest
+              ));
+
+            release =
+              let
+                projectsManifest = builtins.fromJSON (builtins.readFile ./manifest.json);
+              in
+              (builtins.listToAttrs (
+                map (s: {
+                  name = s;
+                  value = pkgs.stdenv.mkDerivation {
+                    name = s;
+                    src = ./projects/${s};
+                    nativeBuildInputs = [ pkgs.gcc ];
+                    buildPhase = ''
+                      gcc -Wall -Wextra -Werror -Wno-unused-parameter -pedantic -std=c17 -o ${s} main.c
+                    '';
+                    installPhase = ''
+                      mkdir -p $out/bin
+                      mv ${s} $out/bin/
+                    '';
+                  };
+                }) projectsManifest
+              ));
+          };
 
           generate-manifest = pkgs.writeShellApplication {
             name = "generate-manifest";
@@ -88,6 +114,21 @@
               git add "$ROOT_DIRECTORY/manifest.json"
             '';
           };
+
+          debug = pkgs.writeShellApplication {
+            name = "debug";
+            runtimeInputs = [ pkgs.gdb ];
+            text = ''
+              PROJECT_NAME="$1"
+              if [ -z "$PROJECT_NAME" ]; then
+                echo "Usage: $0 <project-name>" >&2
+                exit 1
+              fi
+              nix build ".#packages.${system}.projects.debug.$PROJECT_NAME"
+              BINARY_PATH=$(realpath "result/bin/$PROJECT_NAME")
+              gdb "$BINARY_PATH"
+            '';
+          };
         }
       );
 
@@ -105,6 +146,7 @@
               nodejs
               self.packages.${system}.generate-manifest
               self.packages.${system}.new-project
+              self.packages.${system}.debug
             ];
           };
         }
