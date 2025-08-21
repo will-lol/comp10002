@@ -39,9 +39,9 @@
                   value = pkgs.stdenv.mkDerivation {
                     name = "${s}-debug";
                     src = ./projects/${s};
-                    nativeBuildInputs = [ pkgs.gcc ];
+                    nativeBuildInputs = [ pkgs.clang ];
                     buildPhase = ''
-                      gcc -Wall -Wextra -Werror -Wno-unused-parameter -pedantic -std=c17 -ggdb -o ${s} main.c
+                      clang -Wall -Wextra -Werror -Wno-unused-parameter -pedantic -std=c17 -ggdb -o ${s} main.c
                     '';
                     installPhase = ''
                       mkdir -p $out/bin
@@ -117,16 +117,16 @@
 
           debug = pkgs.writeShellApplication {
             name = "debug";
-            runtimeInputs = [ pkgs.gdb ];
+            runtimeInputs = [ pkgs.lldb ];
             text = ''
               PROJECT_NAME="$1"
               if [ -z "$PROJECT_NAME" ]; then
-                echo "Usage: $0 <project-name>" >&2
-                exit 1
+              	echo "Usage: $0 <project-name>" >&2
+              	exit 1
               fi
-              nix build ".#packages.${system}.projects.debug.$PROJECT_NAME"
-              BINARY_PATH=$(realpath "result/bin/$PROJECT_NAME")
-              gdb "$BINARY_PATH"
+              BINARY_PATH="$(nix build --print-out-paths --no-link ".#projects.debug.$PROJECT_NAME")/bin/$PROJECT_NAME"
+              echo "$BINARY_PATH"
+              lldb "$BINARY_PATH"
             '';
           };
         }
