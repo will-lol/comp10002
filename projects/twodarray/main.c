@@ -12,6 +12,18 @@ int main(int argc, char *argv[]) {
   int Y[ROWS][COLS];
   assign_2d(Y, ROWS);
   print_2d(Y, ROWS);
+
+#if 1
+  int *p = &Y[1][1];
+
+  for (int i = 0; i < 25; i++) {
+    *p = 999000 + i;
+    p++;
+  }
+
+  print_2d(Y, ROWS);
+#endif
+
   return 0;
 }
 
@@ -28,7 +40,7 @@ void print_2d(int A[][COLS], int nrows) {
   int i, j;
   for (i = 0; i < nrows; i++) {
     for (j = 0; j < COLS; j++) {
-      printf("%4d ", A[i][j]);
+      printf("%6d ", A[i][j]);
     }
     printf("\n");
   }
