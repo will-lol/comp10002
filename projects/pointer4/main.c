@@ -9,10 +9,14 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < N; i++) {
     A[i] = i * (i + 1) / 2;
   }
-  printf("A = %10p\n", A);
+  printf("A = %10p\n", (void *)A);
   p = A;
-  for (p = A; p < A + N; p++) {
-    printf("p = %10p, *p = %2d\n", p, *p);
+  for (p = A; p < A + N;
+       p++) { // The guard on this function is checking that p is pointing
+              // within the array. A + N does not literally increase the address
+              // of A by N. It increases A by N*(size of elements in A). For
+              // this int array, A will increase by N*4 (4 bytes in an int).
+    printf("p = %10p, *p = %2d\n", (void *)p, *p);
   }
   return 0;
 }
